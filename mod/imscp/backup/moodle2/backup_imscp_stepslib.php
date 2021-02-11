@@ -51,6 +51,7 @@ class backup_imscp_activity_structure_step extends backup_activity_structure_ste
 
         // Define file annotations
         $imscp->annotate_files('mod_imscp', 'intro', null); // This file area hasn't itemid.
+        $imscp->annotate_files('mod_imscp', 'icon', null); // This file area hasn't itemid.
         $imscp->annotate_files('mod_imscp', 'backup', null); // This file area hasn't itemid.
         // Eloy Lafuente: I don't like itemid used for "imaginative" things like "revisions"!
         $imscp->annotate_files('mod_imscp', 'content', null); // Horrible use of itemid here. Ignoring for backup/restore purposes.

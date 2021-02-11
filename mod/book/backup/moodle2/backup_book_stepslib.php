@@ -52,6 +52,7 @@ class backup_book_activity_structure_step extends backup_activity_structure_step
 
         // Define file annotations
         $book->annotate_files('mod_book', 'intro', null); // This file area hasn't itemid
+        $book->annotate_files('mod_book', 'icon', null); // This file area hasn't itemid
         $chapter->annotate_files('mod_book', 'chapter', 'id');
 
         $book->add_child($tags);

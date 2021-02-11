@@ -82,6 +82,7 @@ class backup_h5pactivity_activity_structure_step extends backup_activity_structu
         // Define file annotations.
         $root->annotate_files('mod_h5pactivity', 'intro', null); // This file area hasn't itemid.
         $root->annotate_files('mod_h5pactivity', 'package', null); // This file area hasn't itemid.
+        $root->annotate_files('mod_h5pactivity', 'icon', null); // This file area hasn't itemid.
 
         return $this->prepare_activity_structure($root);
     }

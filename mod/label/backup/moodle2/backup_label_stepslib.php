@@ -50,6 +50,7 @@ class backup_label_activity_structure_step extends backup_activity_structure_ste
 
         // Define file annotations
         $label->annotate_files('mod_label', 'intro', null); // This file area hasn't itemid
+        $label->annotate_files('mod_label', 'icon', null); // This file area hasn't itemid
 
         // Return the root element (label), wrapped into standard activity structure
         return $this->prepare_activity_structure($label);

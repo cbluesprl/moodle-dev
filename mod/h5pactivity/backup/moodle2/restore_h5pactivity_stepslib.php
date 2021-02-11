@@ -100,5 +100,6 @@ class restore_h5pactivity_activity_structure_step extends restore_activity_struc
         // Add related files, no need to match by itemname (just internally handled context).
         $this->add_related_files('mod_h5pactivity', 'intro', null);
         $this->add_related_files('mod_h5pactivity', 'package', null);
+        $this->add_related_files('mod_h5pactivity', 'icon', null);
     }
 }

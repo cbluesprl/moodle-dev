@@ -396,6 +396,7 @@ function get_array_of_activities($courseid) {
     }
 
     $mod = array();
+    $fs = get_file_storage(); // Needed for custom module icon
 
     $rawmods = get_course_mods($courseid);
     if (empty($rawmods)) {
@@ -485,7 +486,22 @@ function get_array_of_activities($courseid) {
                                if (!empty($info->extraclasses)) {
                                    $mod[$seq]->extraclasses = $info->extraclasses;
                                }
-                               if (!empty($info->iconurl)) {
+                               // Custom module icon
+                               $files = $fs->get_area_files(context_module::instance($mod[$seq]->cm)->id, 'mod_'.$modname, 'icon', 0);
+                               foreach ($files as $file) {
+                                   if ($file->get_filename() != '.') {
+                                       $mod[$seq]->iconurl = moodle_url::make_pluginfile_url(
+                                           $file->get_contextid(),
+                                           $file->get_component(),
+                                           $file->get_filearea(),
+                                           $file->get_itemid(),
+                                           $file->get_filepath(),
+                                           $file->get_filename()
+                                       );
+                                       break;
+                                   }
+                               }
+                               if (empty($mod[$seq]->iconurl) && !empty($info->iconurl)) {
                                    // Convert URL to string as it's easier to store. Also serialized object contains \0 byte and can not be written to Postgres DB.
                                    $url = new moodle_url($info->iconurl);
                                    $mod[$seq]->iconurl = $url->out(false);

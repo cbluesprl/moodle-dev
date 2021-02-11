@@ -571,6 +571,9 @@ abstract class moodleform_mod extends moodleform {
 
         $mform->addElement('header', 'modstandardelshdr', get_string('modstandardels', 'form'));
 
+        // Custom module icon
+        $mform->addElement('filemanager', 'icon', 'Icon', null, array('maxfiles' => 1, 'maxbytes' => 0, 'subdirs' => 0, 'accepted_types' => ['web_image']));
+
         $section = get_fast_modinfo($COURSE)->get_section_info($this->_section);
         $allowstealth = !empty($CFG->allowstealth) && $this->courseformat->allow_stealth_module_visibility($this->_cm, $section);
         if ($allowstealth && $section->visible) {

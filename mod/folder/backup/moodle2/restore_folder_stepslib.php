@@ -65,5 +65,6 @@ class restore_folder_activity_structure_step extends restore_activity_structure_
         // Add folder related files, no need to match by itemname (just internally handled context)
         $this->add_related_files('mod_folder', 'intro', null);
         $this->add_related_files('mod_folder', 'content', null);
+        $this->add_related_files('mod_folder', 'icon', null);
     }
 }

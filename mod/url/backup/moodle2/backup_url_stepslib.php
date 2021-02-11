@@ -51,6 +51,7 @@ class backup_url_activity_structure_step extends backup_activity_structure_step 
 
         // Define file annotations
         $url->annotate_files('mod_url', 'intro', null); // This file area hasn't itemid
+        $url->annotate_files('mod_url', 'icon', null); // This file area hasn't itemid
 
         // Return the root element (url), wrapped into standard activity structure
         return $this->prepare_activity_structure($url);

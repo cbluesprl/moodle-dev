@@ -60,6 +60,7 @@ class restore_imscp_activity_structure_step extends restore_activity_structure_s
         // Add imscp related files, no need to match by itemname (just internally handled context).
         // Eloy Lafuente: I don't like itemid used for "imaginative" things like "revisions"!
         $this->add_related_files('mod_imscp', 'intro', null);
+        $this->add_related_files('mod_imscp', 'icon', null);
         $this->add_related_files('mod_imscp', 'backup', null);
         $this->add_related_files('mod_imscp', 'content', null);
     }

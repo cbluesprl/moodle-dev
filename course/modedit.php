@@ -125,6 +125,11 @@ if (!empty($add)) {
     }
     $navbaraddition = null;
 
+    // Custom module icon
+    $draftitemid = file_get_submitted_draft_itemid('icon');
+    file_prepare_draft_area($draftitemid, $context->id, 'mod_'.$cm->modname, 'icon', 0,
+        ['subdirs' => 0, 'maxbytes' => 0, 'maxfiles' => 1]);
+    $data->icon = $draftitemid;
 } else {
     require_login();
     print_error('invalidaction');

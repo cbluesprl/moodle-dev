@@ -97,6 +97,7 @@ class restore_book_activity_structure_step extends restore_activity_structure_st
 
         // Add book related files
         $this->add_related_files('mod_book', 'intro', null);
+        $this->add_related_files('mod_book', 'icon', null);
         $this->add_related_files('mod_book', 'chapter', 'book_chapter');
     }
 }

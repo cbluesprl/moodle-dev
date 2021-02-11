@@ -91,5 +91,6 @@ class restore_survey_activity_structure_step extends restore_activity_structure_
     protected function after_execute() {
         // Add survey related files, no need to match by itemname (just internally handled context)
         $this->add_related_files('mod_survey', 'intro', null);
+        $this->add_related_files('mod_survey', 'icon', null);
     }
 }

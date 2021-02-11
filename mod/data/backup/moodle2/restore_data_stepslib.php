@@ -175,6 +175,7 @@ class restore_data_activity_structure_step extends restore_activity_structure_st
         $this->add_related_files('mod_data', 'intro', null);
         // Add content related files, matching by itemname (data_content)
         $this->add_related_files('mod_data', 'content', 'data_content');
+        $this->add_related_files('mod_data', 'icon', null);
         // Adjust the data->defaultsort field
         if ($defaultsort = $DB->get_field('data', 'defaultsort', array('id' => $this->get_new_parentid('data')))) {
             if ($defaultsort = $this->get_mappingid('data_field', $defaultsort)) {

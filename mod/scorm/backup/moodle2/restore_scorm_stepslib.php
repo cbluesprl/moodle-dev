@@ -196,6 +196,7 @@ class restore_scorm_activity_structure_step extends restore_activity_structure_s
         $this->add_related_files('mod_scorm', 'intro', null);
         $this->add_related_files('mod_scorm', 'content', null);
         $this->add_related_files('mod_scorm', 'package', null);
+        $this->add_related_files('mod_scorm', 'icon', null);
 
         // Fix launch param in scorm table to use new sco id.
         $scormid = $this->get_new_parentid('scorm');
