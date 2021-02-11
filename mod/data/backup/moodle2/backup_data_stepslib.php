@@ -136,6 +136,7 @@ class backup_data_activity_structure_step extends backup_activity_structure_step
         // Define file annotations
         $data->annotate_files('mod_data', 'intro', null); // This file area hasn't itemid
         $content->annotate_files('mod_data', 'content', 'id'); // By content->id
+        $content->annotate_files('mod_data', 'icon', null);
 
         // Return the root element (data), wrapped into standard activity structure
         return $this->prepare_activity_structure($data);

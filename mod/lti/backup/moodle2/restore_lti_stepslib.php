@@ -281,5 +281,6 @@ class restore_lti_activity_structure_step extends restore_activity_structure_ste
     protected function after_execute() {
         // Add lti related files, no need to match by itemname (just internally handled context).
         $this->add_related_files('mod_lti', 'intro', null);
+        $this->add_related_files('mod_lti', 'icon', null);
     }
 }

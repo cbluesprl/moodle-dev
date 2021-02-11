@@ -118,6 +118,7 @@ class restore_feedback_activity_structure_step extends restore_activity_structur
         // Add feedback related files, no need to match by itemname (just internally handled context)
         $this->add_related_files('mod_feedback', 'intro', null);
         $this->add_related_files('mod_feedback', 'page_after_submit', null);
+        $this->add_related_files('mod_feedback', 'icon', null);
         $this->add_related_files('mod_feedback', 'item', 'feedback_item');
 
         // Once all items are restored we can set their dependency.

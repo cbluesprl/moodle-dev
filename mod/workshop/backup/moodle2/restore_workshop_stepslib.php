@@ -207,6 +207,7 @@ class restore_workshop_activity_structure_step extends restore_activity_structur
     protected function after_execute() {
         // Add workshop related files, no need to match by itemname (just internally handled context)
         $this->add_related_files('mod_workshop', 'intro', null);
+        $this->add_related_files('mod_workshop', 'icon', null);
         $this->add_related_files('mod_workshop', 'instructauthors', null);
         $this->add_related_files('mod_workshop', 'instructreviewers', null);
         $this->add_related_files('mod_workshop', 'conclusion', null);

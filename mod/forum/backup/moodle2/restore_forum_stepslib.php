@@ -265,6 +265,7 @@ class restore_forum_activity_structure_step extends restore_activity_structure_s
     protected function after_execute() {
         // Add forum related files, no need to match by itemname (just internally handled context)
         $this->add_related_files('mod_forum', 'intro', null);
+        $this->add_related_files('mod_forum', 'icon', null);
 
         // Add post related files, matching by itemname = 'forum_post'
         $this->add_related_files('mod_forum', 'post', 'forum_post');

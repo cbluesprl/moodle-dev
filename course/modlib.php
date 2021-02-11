@@ -165,6 +165,12 @@ function add_moduleinfo($moduleinfo, $course, $mform = null) {
         core_tag_tag::set_item_tags('core', 'course_modules', $moduleinfo->coursemodule, $modcontext, $moduleinfo->tags);
     }
 
+    // Custom module icon
+    if (isset($moduleinfo->icon)) {
+        file_save_draft_area_files($moduleinfo->icon, $modcontext->id, 'mod_'.$moduleinfo->modulename, 'icon',
+            0, array('subdirs' => 0, 'maxbytes' => 0, 'maxfiles' => 1));
+    }
+
     // Course_modules and course_sections each contain a reference to each other.
     // So we have to update one of them twice.
     $sectionid = course_add_cm_to_section($course, $moduleinfo->coursemodule, $moduleinfo->section);
@@ -587,6 +593,12 @@ function update_moduleinfo($cm, $moduleinfo, $course, $mform = null) {
     $DB->update_record('course_modules', $cm);
 
     $modcontext = context_module::instance($moduleinfo->coursemodule);
+
+    // Custom module icon
+    if (isset($moduleinfo->icon)) {
+        file_save_draft_area_files($data->icon, $modcontext->id, 'mod_'.$cm->modname, 'icon',
+            0, ['subdirs' => 0, 'maxbytes' => 0, 'maxfiles' => 1]);
+    }
 
     // Update embedded links and save files.
     if (plugin_supports('mod', $moduleinfo->modulename, FEATURE_MOD_INTRO, true)) {

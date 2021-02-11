@@ -173,6 +173,7 @@ class backup_quiz_activity_structure_step extends backup_questions_activity_stru
 
         // Define file annotations.
         $quiz->annotate_files('mod_quiz', 'intro', null); // This file area hasn't itemid.
+        $quiz->annotate_files('mod_quiz', 'icon', null); // This file area hasn't itemid.
         $feedback->annotate_files('mod_quiz', 'feedback', 'id');
 
         // Return the root element (quiz), wrapped into standard activity structure.

@@ -424,6 +424,7 @@ class restore_assign_activity_structure_step extends restore_activity_structure_
     protected function after_execute() {
         $this->add_related_files('mod_assign', 'intro', null);
         $this->add_related_files('mod_assign', 'introattachment', null);
+        $this->add_related_files('mod_assign', 'icon', null);
 
         $this->add_plugin_config_files('assignsubmission');
         $this->add_plugin_config_files('assignfeedback');
