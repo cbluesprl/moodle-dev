@@ -1038,6 +1038,7 @@ $string['filteroption'] = '{$a->criteria}: {$a->value}';
 $string['filters'] = 'Filters';
 $string['icqnumber'] = 'ICQ number';
 $string['icon'] = 'Icon';
+$string['iconsize'] = 'Icon Size';
 $string['idnumber'] = 'ID number';
 $string['idnumbercourse'] = 'Course ID number';
 $string['idnumbercourse_help'] = 'The ID number of a course is only used when matching the course against external systems and is not displayed anywhere on the site. If the course has an official code name it may be entered, otherwise the field can be left blank.';
