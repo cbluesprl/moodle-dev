@@ -1,0 +1,3 @@
+[submodule "course/format/yagrid"]
+	path = course/format/yagrid
+	url = git@gitlab.cblue.be:cblue-moodle-projects/course_format_yagrid.git
