@@ -2485,7 +2485,7 @@ class core_course_renderer extends plugin_renderer_base {
     {
         $course_format = course_get_format($cm->get_course());
         $course_format_options = $course_format->get_format_options();
-        if (!$course_format_options['iconsize']) {
+        if (empty($course_format_options['iconsize'])) {
             return 24;
         } else {
             return $course_format_options['iconsize'];
