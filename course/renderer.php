@@ -705,9 +705,12 @@ class core_course_renderer extends plugin_renderer_base {
         // has already been encoded for display (puke).
         $onclick = htmlspecialchars_decode($mod->onclick, ENT_QUOTES);
 
+
         // Display link itself.
+        $iconsize = $this->get_icon_size($mod);
         $activitylink = html_writer::empty_tag('img', array('src' => $mod->get_icon_url(),
-                'class' => 'iconlarge activityicon', 'alt' => '', 'role' => 'presentation', 'aria-hidden' => 'true')) .
+                'class' => 'iconlarge activityicon', 'alt' => '', 'role' => 'presentation', 'aria-hidden' => 'true',
+                'style' => 'height: ' . $iconsize . 'px; width: ' . $iconsize . 'px;')) .
                 html_writer::tag('span', $instancename . $altname, array('class' => 'instancename'));
         if ($mod->uservisible) {
             $output .= html_writer::link($url, $activitylink, array('class' => 'aalink' . $linkclasses, 'onclick' => $onclick));
@@ -994,9 +997,11 @@ class core_course_renderer extends plugin_renderer_base {
             return get_string('activityiscurrentlyhidden');
         }
 
+        $iconsize = $this->get_icon_size($cm);
         $altname = get_accesshide(' ' . $cm->modfullname);
         $name = html_writer::empty_tag('img', array('src' => $cm->get_icon_url(),
-                'class' => 'iconlarge activityicon', 'alt' => ' ', 'role' => 'presentation')) .
+                'class' => 'iconlarge activityicon', 'alt' => ' ', 'role' => 'presentation',
+                'style' => 'height: ' . $iconsize . 'px; width: ' . $iconsize . 'px;')) .
             html_writer::tag('span', ' '.$cm->get_formatted_name() . $altname, array('class' => 'instancename'));
         $formattedinfo = \core_availability\info::format_info($cm->availableinfo, $cm->get_course());
         return html_writer::div($name, 'activityinstance-error') .
@@ -2473,6 +2478,20 @@ class core_course_renderer extends plugin_renderer_base {
         }
 
         return $output;
+    }
+
+    /**
+     * @param cm_info $cm
+     * @return int
+     */
+    protected function get_icon_size(cm_info $cm) {
+        $course_format = course_get_format($cm->get_course());
+        $course_format_options = $course_format->get_format_options();
+        if (empty($course_format_options['iconsize'])) {
+            return 24;
+        } else {
+            return $course_format_options['iconsize'];
+        }
     }
 }
 

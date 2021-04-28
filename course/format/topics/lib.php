@@ -235,6 +235,10 @@ class format_topics extends format_base {
                     'default' => $courseconfig->coursedisplay,
                     'type' => PARAM_INT,
                 ),
+                'iconsize' => array(
+                    'default' => $courseconfig->iconsize = $courseconfig->iconsize ?? 24,
+                    'type' => PARAM_INT,
+                ),
             );
         }
         if ($foreditform && !isset($courseformatoptions['coursedisplay']['label'])) {
@@ -261,6 +265,43 @@ class format_topics extends format_base {
                         )
                     ),
                     'help' => 'coursedisplay',
+                    'help_component' => 'moodle',
+                ),
+                'iconsize' => array(
+                    'label' => new lang_string('iconsize'),
+                    'element_type' => 'select',
+                    'element_attributes' => array(
+                        array(
+                            0 => new lang_string('default'),
+                            10 => 10,
+                            12 => 12,
+                            14 => 14,
+                            16 => 16,
+                            18 => 18,
+                            20 => 20,
+                            22 => 22,
+                            24 => 24,
+                            26 => 26,
+                            28 => 28,
+                            30 => 30,
+                            32 => 32,
+                            34 => 34,
+                            36 => 36,
+                            38 => 38,
+                            40 => 40,
+                            42 => 42,
+                            44 => 44,
+                            46 => 46,
+                            48 => 48,
+                            50 => 50,
+                            52 => 52,
+                            54 => 54,
+                            56 => 56,
+                            58 => 58,
+                            60 => 60,
+                        )
+                    ),
+                    'help' => 'iconsize',
                     'help_component' => 'moodle',
                 )
             );
