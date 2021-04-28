@@ -194,15 +194,14 @@ class auth_plugin_manual extends auth_plugin_base {
     * @param string $confirmsecret
     */
     function user_confirm($username, $confirmsecret = null) {
-        global $DB;
-
         $user = get_complete_user_data('username', $username);
 
         if (!empty($user)) {
             if ($user->confirmed) {
                 return AUTH_CONFIRM_ALREADY;
             } else {
-                $DB->set_field("user", "confirmed", 1, array("id"=>$user->id));
+                $user->confirmed = 1;
+                user_update_user($user, false);
                 return AUTH_CONFIRM_OK;
             }
         } else  {

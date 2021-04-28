@@ -365,7 +365,6 @@ class auth extends \auth_plugin_base {
      * @param string $confirmsecret
      */
     public function user_confirm($username, $confirmsecret) {
-        global $DB;
         $user = get_complete_user_data('username', $username);
 
         if (!empty($user)) {
@@ -376,7 +375,8 @@ class auth extends \auth_plugin_base {
                 return AUTH_CONFIRM_ALREADY;
 
             } else if ($user->secret === $confirmsecret) {   // They have provided the secret key to get in.
-                $DB->set_field("user", "confirmed", 1, array("id" => $user->id));
+                $user->confirmed = 1;
+                user_update_user($user, false);
                 return AUTH_CONFIRM_OK;
             }
         } else {

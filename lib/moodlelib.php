@@ -4900,11 +4900,12 @@ function update_internal_user_password($user, $password, $fasthash = false) {
     }
 
     if ($passwordchanged || $algorithmchanged) {
-        $DB->set_field('user', 'password',  $hashedpassword, array('id' => $user->id));
+        $user = $DB->get_record('user', ['id' => $user->id]);
         $user->password = $hashedpassword;
+        $user->timemodified = time();
+        $DB->update_record('user', $user);
 
         // Trigger event.
-        $user = $DB->get_record('user', array('id' => $user->id));
         \core\event\user_password_updated::create_from_user($user)->trigger();
 
         // Remove WS user tokens.
