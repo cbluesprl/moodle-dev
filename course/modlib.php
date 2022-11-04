@@ -89,7 +89,7 @@ function add_moduleinfo($moduleinfo, $course, $mform = null) {
         $newcm->completionview            = $moduleinfo->completionview;
         $newcm->completionexpected        = $moduleinfo->completionexpected;
     }
-    if(!empty($CFG->enableavailability)) {
+    if (!empty($CFG->enableavailability)) {
         // This code is used both when submitting the form, which uses a long
         // name to avoid clashes, and by unit test code which uses the real
         // name in the table.
@@ -173,6 +173,12 @@ function add_moduleinfo($moduleinfo, $course, $mform = null) {
     // Add module tags.
     if (core_tag_tag::is_enabled('core', 'course_modules') && isset($moduleinfo->tags)) {
         core_tag_tag::set_item_tags('core', 'course_modules', $moduleinfo->coursemodule, $modcontext, $moduleinfo->tags);
+    }
+
+    // Custom module icon.
+    if (isset($moduleinfo->icon)) {
+        file_save_draft_area_files($moduleinfo->icon, $modcontext->id, 'mod_' . $moduleinfo->modulename, 'icon',
+            0, ['subdirs' => 0, 'maxbytes' => 0, 'maxfiles' => 1]);
     }
 
     // Course_modules and course_sections each contain a reference to each other.
@@ -690,6 +696,13 @@ function update_moduleinfo($cm, $moduleinfo, $course, $mform = null) {
     if (core_tag_tag::is_enabled('core', 'course_modules') && isset($moduleinfo->tags)) {
         core_tag_tag::set_item_tags('core', 'course_modules', $moduleinfo->coursemodule, $modcontext, $moduleinfo->tags);
     }
+
+    // Custom module icon.
+    if (isset($moduleinfo->icon)) {
+        file_save_draft_area_files($moduleinfo->icon, $modcontext->id, 'mod_' . $moduleinfo->modulename, 'icon',
+            0, ['subdirs' => 0, 'maxbytes' => 0, 'maxfiles' => 1]);
+    }
+
     $moduleinfo = edit_module_post_actions($moduleinfo, $course);
 
     // Now that module is fully updated, also update completion data if required.
@@ -734,7 +747,7 @@ function include_modulelib($modulename) {
 function get_moduleinfo_data($cm, $course) {
     global $CFG;
 
-    list($cm, $context, $module, $data, $cw) = can_update_moduleinfo($cm);
+    [$cm, $context, $module, $data, $cw] = can_update_moduleinfo($cm);
 
     $data->coursemodule       = $cm->id;
     $data->section            = $cw->section;  // The section number itself - relative!!! (section column in course_sections)
@@ -840,7 +853,7 @@ function get_moduleinfo_data($cm, $course) {
 function prepare_new_moduleinfo_data($course, $modulename, $section) {
     global $CFG;
 
-    list($module, $context, $cw) = can_add_moduleinfo($course, $modulename, $section);
+    [$module, $context, $cw] = can_add_moduleinfo($course, $modulename, $section);
 
     $cm = null;
 

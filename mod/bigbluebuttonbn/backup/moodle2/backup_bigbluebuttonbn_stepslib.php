@@ -84,6 +84,8 @@ class backup_bigbluebuttonbn_activity_structure_step extends backup_activity_str
 
         // Define file annotations.
         $bigbluebuttonbn->annotate_files('mod_bigbluebuttonbn', 'intro', null);
+        $bigbluebuttonbn->annotate_files('mod_bigbluebuttonbn', 'icon', null); // Custom module icon.
+
 
         // Return the root element (bigbluebuttonbn), wrapped into standard activity structure.
         return $this->prepare_activity_structure($bigbluebuttonbn);

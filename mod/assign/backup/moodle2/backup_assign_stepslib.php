@@ -204,6 +204,7 @@ class backup_assign_activity_structure_step extends backup_activity_structure_st
         // These file areas don't have an itemid.
         $assign->annotate_files('mod_assign', 'intro', null);
         $assign->annotate_files('mod_assign', 'introattachment', null);
+        $assign->annotate_files('mod_assign', 'icon', null); // Custom module icon.
         $this->annotate_plugin_config_files($assign, 'assignsubmission');
         $this->annotate_plugin_config_files($assign, 'assignfeedback');
 

@@ -141,6 +141,8 @@ class restore_assignment_activity_structure_step extends restore_activity_struct
     protected function after_execute() {
         // Add assignment related files, no need to match by itemname (just internally handled context)
         $this->add_related_files('mod_assignment', 'intro', null);
+        $this->add_related_files('mod_assignment', 'icon', null); // Custom module icon.
+
         // Add assignment submission files, matching by assignment_submission itemname
         $this->add_related_files('mod_assignment', 'submission', 'assignment_submission');
         $this->add_related_files('mod_assignment', 'response', 'assignment_submission');

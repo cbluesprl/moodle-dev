@@ -79,5 +79,6 @@ class restore_chat_activity_structure_step extends restore_activity_structure_st
     protected function after_execute() {
         // Add chat related files, no need to match by itemname (just internally handled context).
         $this->add_related_files('mod_chat', 'intro', null);
+        $this->add_related_files('mod_chat', 'icon', null);
     }
 }

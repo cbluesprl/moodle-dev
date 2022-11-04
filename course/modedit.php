@@ -90,6 +90,10 @@ if (!empty($add)) {
     }
     $navbaraddition = $pageheading;
 
+    // Custom module icon.
+    $draftitemid = file_get_submitted_draft_itemid('icon');
+    $data->icon = $draftitemid;
+
 } else if (!empty($update)) {
 
     $url->param('update', $update);
@@ -124,6 +128,12 @@ if (!empty($add)) {
         $pageheading = get_string('updatinga', 'moodle', $fullmodulename);
     }
     $navbaraddition = null;
+
+    // Custom module icon.
+    $draftitemid = file_get_submitted_draft_itemid('icon');
+    file_prepare_draft_area($draftitemid, $context->id, 'mod_' . $cm->modname, 'icon', 0,
+        ['subdirs' => 0, 'maxbytes' => 0, 'maxfiles' => 1]);
+    $data->icon = $draftitemid;
 
 } else {
     require_login();

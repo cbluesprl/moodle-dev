@@ -91,7 +91,7 @@ class cmname implements named_templatable, renderable {
      * Export this data so it can be used as the context for a mustache template.
      *
      * @param \renderer_base $output typically, the renderer that's calling this function
-     * @return stdClass data context for a mustache template
+     * @return array data context for a mustache template
      */
     public function export_for_template(\renderer_base $output): array {
         $mod = $this->mod;
@@ -102,17 +102,16 @@ class cmname implements named_templatable, renderable {
             return [];
         }
 
-        $data = [
+        return [
             'url' => $mod->url,
             'icon' => $mod->get_icon_url(),
+            'disablecssfilter' => $mod->disablecssfilter, // Custom module icon.
             'modname' => $mod->modname,
             'pluginname' => get_string('pluginname', 'mod_' . $mod->modname),
             'textclasses' => $displayoptions['textclasses'] ?? '',
             'purpose' => plugin_supports('mod', $mod->modname, FEATURE_MOD_PURPOSE, MOD_PURPOSE_OTHER),
             'activityname' => $this->get_title_data($output),
         ];
-
-        return $data;
     }
 
     /**

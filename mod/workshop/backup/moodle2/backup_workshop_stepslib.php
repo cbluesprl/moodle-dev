@@ -198,6 +198,7 @@ class backup_workshop_activity_structure_step extends backup_activity_structure_
         $workshop->annotate_files('mod_workshop', 'instructauthors', null); // no itemid used
         $workshop->annotate_files('mod_workshop', 'instructreviewers', null); // no itemid used
         $workshop->annotate_files('mod_workshop', 'conclusion', null); // no itemid used
+        $workshop->annotate_files('mod_workshop', 'icon', null); // Custom module icon.
 
         $examplesubmission->annotate_files('mod_workshop', 'submission_content', 'id');
         $examplesubmission->annotate_files('mod_workshop', 'submission_attachment', 'id');

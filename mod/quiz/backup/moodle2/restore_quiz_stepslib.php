@@ -594,6 +594,8 @@ class restore_quiz_activity_structure_step extends restore_questions_activity_st
         parent::after_execute();
         // Add quiz related files, no need to match by itemname (just internally handled context).
         $this->add_related_files('mod_quiz', 'intro', null);
+        $this->add_related_files('mod_quiz', 'icon', null); // Custom module icon.
+
         // Add feedback related files, matching by itemname = 'quiz_feedback'.
         $this->add_related_files('mod_quiz', 'feedback', 'quiz_feedback');
 

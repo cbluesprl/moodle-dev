@@ -212,6 +212,7 @@ class backup_forum_activity_structure_step extends backup_activity_structure_ste
         // Define file annotations
 
         $forum->annotate_files('mod_forum', 'intro', null); // This file area hasn't itemid
+        $forum->annotate_files('mod_forum', 'icon', null); // Custom module icon.
 
         $post->annotate_files('mod_forum', 'post', 'id');
         $post->annotate_files('mod_forum', 'attachment', 'id');

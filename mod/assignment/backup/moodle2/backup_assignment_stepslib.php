@@ -78,6 +78,7 @@ class backup_assignment_activity_structure_step extends backup_activity_structur
 
         // Define file annotations
         $assignment->annotate_files('mod_assignment', 'intro', null); // This file area hasn't itemid
+        $assignment->annotate_files('mod_assignment', 'icon', null); // Custom module icon.
         $submission->annotate_files('mod_assignment', 'submission', 'id');
         $submission->annotate_files('mod_assignment', 'response', 'id');
 

@@ -5150,6 +5150,16 @@ function file_pluginfile($relativepath, $forcedownload, $preview = null, $offlin
             }
         }
     } else if (strpos($component, 'mod_') === 0) {
+        // Custom module icon.
+        if ($filearea === 'icon' && $context->contextlevel == CONTEXT_MODULE) {
+            $filename = array_pop($args);
+
+            $file = $fs->get_file($context->id, $component, $filearea, 0, '/', $filename);
+            if ($file) {
+                send_stored_file($file);
+            }
+        }
+
         $modname = substr($component, 4);
         if (!file_exists("$CFG->dirroot/mod/$modname/lib.php")) {
             send_file_not_found();

@@ -210,6 +210,7 @@ class restore_workshop_activity_structure_step extends restore_activity_structur
         $this->add_related_files('mod_workshop', 'instructauthors', null);
         $this->add_related_files('mod_workshop', 'instructreviewers', null);
         $this->add_related_files('mod_workshop', 'conclusion', null);
+        $this->add_related_files('mod_workshop', 'icon', null); // Custom module icon.
 
         // Add example submission related files, matching by 'workshop_examplesubmission' itemname
         $this->add_related_files('mod_workshop', 'submission_content', 'workshop_examplesubmission');

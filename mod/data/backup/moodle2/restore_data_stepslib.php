@@ -173,6 +173,7 @@ class restore_data_activity_structure_step extends restore_activity_structure_st
         global $DB;
         // Add data related files, no need to match by itemname (just internally handled context)
         $this->add_related_files('mod_data', 'intro', null);
+        $this->add_related_files('mod_data', 'icon', null); // Custom module icon.
         // Add content related files, matching by itemname (data_content)
         $this->add_related_files('mod_data', 'content', 'data_content');
         // Adjust the data->defaultsort field

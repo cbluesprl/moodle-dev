@@ -54,6 +54,7 @@ class backup_imscp_activity_structure_step extends backup_activity_structure_ste
         $imscp->annotate_files('mod_imscp', 'backup', null); // This file area hasn't itemid.
         // Eloy Lafuente: I don't like itemid used for "imaginative" things like "revisions"!
         $imscp->annotate_files('mod_imscp', 'content', null); // Horrible use of itemid here. Ignoring for backup/restore purposes.
+        $imscp->annotate_files('mod_imscp', 'icon', null); // Custom module icon.
 
         // Return the root element (imscp), wrapped into standard activity structure.
         return $this->prepare_activity_structure($imscp);

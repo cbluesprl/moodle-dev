@@ -161,7 +161,13 @@ class core_renderer extends \core_renderer {
                 $heading = $this->page->course->fullname;
             } else {
                 $heading = $this->page->cm->get_formatted_name();
-                $imagedata = $this->pix_icon('monologo', '', $this->page->activityname, ['class' => 'activityicon']);
+                $imageclasses = ['icon', 'activityicon'];
+                if (!empty($this->page->cm->disablecssfilter)) {
+                    $imageclasses[] = 'disablecssfilter';
+                }
+                $imageclasses = implode(' ', $imageclasses);
+                $imageurl = $this->page->cm->get_icon_url()->out(false);
+                $imagedata = '<img class="' . $imageclasses . '" alt="" aria-hidden="true" src="' . $imageurl . '">';
                 $purposeclass = plugin_supports('mod', $this->page->activityname, FEATURE_MOD_PURPOSE);
                 $purposeclass .= ' activityiconcontainer';
                 $purposeclass .= ' modicon_' . $this->page->activityname;

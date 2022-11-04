@@ -253,6 +253,8 @@ class restore_lesson_activity_structure_step extends restore_activity_structure_
         // Add lesson files, no need to match by itemname (just internally handled context).
         $this->add_related_files('mod_lesson', 'intro', null);
         $this->add_related_files('mod_lesson', 'mediafile', null);
+        $this->add_related_files('mod_lesson', 'icon', null); // Custom module icon.
+
         // Add lesson page files, by lesson_page itemname
         $this->add_related_files('mod_lesson', 'page_contents', 'lesson_page');
         $this->add_related_files('mod_lesson', 'page_answers', 'lesson_answer');

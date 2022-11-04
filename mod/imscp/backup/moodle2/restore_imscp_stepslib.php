@@ -62,5 +62,6 @@ class restore_imscp_activity_structure_step extends restore_activity_structure_s
         $this->add_related_files('mod_imscp', 'intro', null);
         $this->add_related_files('mod_imscp', 'backup', null);
         $this->add_related_files('mod_imscp', 'content', null);
+        $this->add_related_files('mod_imscp', 'icon', null); // Custom module icon.
     }
 }

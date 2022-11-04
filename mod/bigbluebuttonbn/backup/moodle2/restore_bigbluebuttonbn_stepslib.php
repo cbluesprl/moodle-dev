@@ -110,5 +110,6 @@ class restore_bigbluebuttonbn_activity_structure_step extends restore_activity_s
     protected function after_execute() {
         // Add bigbluebuttonbn related files, no need to match by itemname (just internally handled context).
         $this->add_related_files('mod_bigbluebuttonbn', 'intro', null);
+        $this->add_related_files('mod_bigbluebuttonbn', 'icon', null); // Custom module icon.
     }
 }

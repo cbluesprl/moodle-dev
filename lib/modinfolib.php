@@ -755,11 +755,14 @@ class course_modinfo {
     }
 
     /**
-     * For a given course, returns an array of course activity objects
+     * For a given course, returns an array of course activity objects.
      *
      * @param stdClass $course Course object
      * @param bool $usecache get activities from cache if modinfo exists when $usecache is true
      * @return array list of activities
+     * @throws coding_exception
+     * @throws dml_exception
+     * @throws moodle_exception
      */
     public static function get_array_of_activities(stdClass $course, bool $usecache = false): array {
         global $CFG, $DB;
@@ -782,6 +785,9 @@ class course_modinfo {
                 $mods = $coursemodinfo->modinfo;
             }
         }
+
+        // Get file storage for custom module icon.
+        $fs = get_file_storage();
 
         $courseformat = course_get_format($course);
 
@@ -896,6 +902,24 @@ class course_modinfo {
                                 }
                             }
                         }
+
+                        // Custom module icon.
+                        $custommoduleiconfiles = $fs->get_area_files(context_module::instance($cmid)->id, 'mod_' . $modname, 'icon', 0);
+                        foreach ($custommoduleiconfiles as $custommoduleiconfile) {
+                            if ($custommoduleiconfile->get_filename() != '.') {
+                                $mods[$cmid]->iconurl = moodle_url::make_pluginfile_url(
+                                    $custommoduleiconfile->get_contextid(),
+                                    $custommoduleiconfile->get_component(),
+                                    $custommoduleiconfile->get_filearea(),
+                                    $custommoduleiconfile->get_itemid(),
+                                    $custommoduleiconfile->get_filepath(),
+                                    $custommoduleiconfile->get_filename()
+                                )->out(false);
+                                $mods[$cmid]->disablecssfilter = true;
+                                break;
+                            }
+                        }
+
                         // When there is no modname_get_coursemodule_info function,
                         // ... but showdescriptions is enabled, then we use the 'intro',
                         // ... and 'introformat' fields in the module table.
@@ -919,8 +943,8 @@ class course_modinfo {
                         // Minimise the database size by unsetting default options when they are 'empty'.
                         // This list corresponds to code in the cm_info constructor.
                         foreach (['idnumber', 'groupmode', 'groupingid',
-                            'indent', 'completion', 'extra', 'extraclasses', 'iconurl', 'onclick', 'content',
-                            'icon', 'iconcomponent', 'customdata', 'availability', 'completionview',
+                            'indent', 'completion', 'extra', 'extraclasses', 'iconurl', 'disablecssfilter', 'onclick',
+                            'content', 'icon', 'iconcomponent', 'customdata', 'availability', 'completionview',
                             'completionexpected', 'score', 'showdescription', 'deletioninprogress'] as $property) {
                             if (property_exists($mods[$cmid], $property) &&
                                 empty($mods[$cmid]->{$property})) {
@@ -1385,6 +1409,11 @@ class cm_info implements IteratorAggregate {
     private $iconurl;
 
     /**
+     * @var bool For custom module icon.
+     */
+    private $disablecssfilter;
+
+    /**
      * @var string
      */
     private $onclick;
@@ -1476,6 +1505,7 @@ class cm_info implements IteratorAggregate {
         'deletioninprogress' => false,
         'downloadcontent' => false,
         'lang' => false,
+        'disablecssfilter' => false,
     ];
 
     /**
@@ -1779,7 +1809,7 @@ class cm_info implements IteratorAggregate {
         } else if (!empty($this->icon)) {
             // Fallback to normal local icon + component processing.
             if (substr($this->icon, 0, 4) === 'mod/') {
-                list($modname, $iconname) = explode('/', substr($this->icon, 4), 2);
+                [$modname, $iconname] = explode('/', substr($this->icon, 4), 2);
                 $icon = $output->image_url($iconname, $modname);
             } else {
                 if (!empty($this->iconcomponent)) {
@@ -2147,6 +2177,7 @@ class cm_info implements IteratorAggregate {
         $this->extraclasses     = isset($mod->extraclasses) ? $mod->extraclasses : '';
         // iconurl may be stored as either string or instance of moodle_url.
         $this->iconurl          = isset($mod->iconurl) ? new moodle_url($mod->iconurl) : '';
+        $this->disablecssfilter = isset($mod->disablecssfilter) ? $mod->disablecssfilter : false; // For custom module icon.
         $this->onclick          = isset($mod->onclick) ? $mod->onclick : '';
         $this->content          = isset($mod->content) ? $mod->content : '';
         $this->icon             = isset($mod->icon) ? $mod->icon : '';
