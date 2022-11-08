@@ -27,6 +27,7 @@ $string['disabledwithvalue'] = 'Disabled ({$a})';
 $string['enabled'] = 'Enabled';
 $string['errordeleting'] = 'Error deleting from database.';
 $string['errorinserting'] = 'Error inserting into database.';
+$string['errorsetting'] = 'Error setting.';
 $string['errornopreset'] = 'A preset with this name doesn\'t exist.';
 $string['fullpreset'] = 'Full';
 $string['fullpresetdescription'] = 'All the Starter features plus External (LTI) tool, SCORM, Workshop, Analytics, Badges, Competencies, Learning plans and lots more.';
