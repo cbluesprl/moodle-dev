@@ -26,6 +26,7 @@
 namespace assignfeedback_editpdf\task;
 
 use core\task\adhoc_task;
+use dml_exception;
 
 /**
  * Adhoc task to bump the submission timemodified associated with a stale conversion.
@@ -39,19 +40,23 @@ class bump_submission_for_stale_conversions extends adhoc_task {
 
     /**
      * Run the task.
+     *
+     * @throws dml_exception
      */
-    public function execute() {
+    public function execute(): void {
         global $DB;
 
         // Used to only get records after whenever document conversion was enabled for this site.
-        $earliestconversion = $DB->get_record_sql("SELECT MIN(timecreated) AS min
-                                                     FROM {files}
-                                                    WHERE filearea = 'documentconversion'");
+        $earliestconversion = $DB->get_record_sql(
+            "SELECT MIN(timecreated) AS min
+            FROM {files}
+            WHERE filearea = 'documentconversion'"
+        );
 
         if (isset($earliestconversion->min)) {
             ['sql' => $extensionsql, 'params' => $extensionparams] = array_reduce(
                 ['doc', 'docx', 'rtf', 'xls', 'xlsx', 'ppt', 'pptx', 'html', 'odt', 'ods', 'png', 'jpg', 'txt', 'gif'],
-                function(array $c, string $ext) use ($DB): array {
+                function (array $c, string $ext) use ($DB): array {
                     return [
                         'sql' => $c['sql'] . ($c['sql'] ? ' OR ' : '') . $DB->sql_like('f1.filename', ':' . $ext),
                         'params' => $c['params'] + [$ext => '%.' . $ext]
@@ -66,31 +71,36 @@ class bump_submission_for_stale_conversions extends adhoc_task {
             //
             // Also check if the file has a greater modified time than the submission, if it does
             // that means it is both stale (as per the above) and will never be reconverted.
-            $sql = "SELECT f3.id, f3.timemodified as fmodified, asu.id as submissionid
-                      FROM {files} f1
-                 LEFT JOIN {files} f2 ON f1.contenthash = f2.filename
-                           AND f2.component = 'core' AND f2.filearea = 'documentconversion'
-                      JOIN {assign_submission} asu ON asu.id = f1.itemid
-                      JOIN {assign_grades} asg ON asg.userid = asu.userid AND asg.assignment = asu.assignment
-                      JOIN {files} f3 ON f3.itemid = asg.id
-                     WHERE f1.filearea = 'submission_files'
-                           AND f3.timecreated >= :earliest
-                           AND ($extensionsql)
-                           AND f2.filename IS NULL
-                           AND f3.component = 'assignfeedback_editpdf'
-                           AND f3.filearea = 'combined'
-                           AND f3.filename = 'combined.pdf'
-                           AND f3.timemodified >= asu.timemodified";
+            $sql = "SELECT f3.id, f3.timemodified AS fmodified, asu.id AS submissionid
+                FROM {files} f1
+                JOIN {assign_submission} asu ON asu.id = f1.itemid
+                JOIN {assign_grades} asg ON asg.userid = asu.userid AND asg.assignment = asu.assignment
+                JOIN {files} f3 ON f3.component = 'assignfeedback_editpdf'
+                    AND f3.filearea = 'combined'
+                    AND f3.filename = 'combined.pdf'
+                    AND f3.contextid = f1.contextid  -- Add this condition to use index
+                    AND f3.itemid = asg.id
+                    AND f3.timemodified >= asu.timemodified
+                LEFT JOIN {files} f2 ON f1.contenthash = f2.filename
+                    AND f2.component = 'core'
+                    AND f2.filearea = 'documentconversion'
+                WHERE f1.component = 'assignsubmission_file' -- Add this condition to use index
+                    AND f1.filearea = 'submission_files'
+                    AND f3.timecreated >= :earliest
+                    AND ($extensionsql)
+                    AND f2.filename IS NULL";
 
-            $submissionstobump = $DB->get_records_sql($sql, ['earliest' => $earliestconversion->min] + $extensionparams);
+            $submissionstobump = $DB->get_recordset_sql( // Improve performance
+                $sql,
+                ['earliest' => $earliestconversion->min] + $extensionparams
+            );
             foreach ($submissionstobump as $submission) {
-
                 // Set the submission modified time to one second later than the
                 // converted files modified time, this will cause assign to reconvert
                 // everything and delete the old files when the assignment grader is
                 // viewed. See get_page_images_for_attempt in document_services.php.
                 $newmodified = $submission->fmodified + 1;
-                $record = (object)[
+                $record = (object) [
                     'id' => $submission->submissionid,
                     'timemodified' => $newmodified
                 ];
@@ -98,6 +108,7 @@ class bump_submission_for_stale_conversions extends adhoc_task {
                 mtrace('Set submission ' . $submission->submissionid . ' timemodified to ' . $newmodified);
                 $DB->update_record('assign_submission', $record);
             }
+            $submissionstobump->close(); // Improve performance
         }
     }
 }
